@@ -1,0 +1,29 @@
+<%- include('../partials/header', { title: 'Panel de Administrador' }) %>
+
+<h4>👑 Panel de Administrador</h4>
+<table class="striped highlight responsive-table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Email</th>
+      <th>Teléfono</th>
+      <th>Roles</th>
+      <th>Fecha de registro</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.forEach(u => { %>
+      <tr>
+        <td><%= u.name %></td>
+        <td><%= u.lastName %></td>
+        <td><%= u.email %></td>
+        <td><%= u.phoneNumber %></td>
+        <td><%= u.roles.map(r => r.name).join(', ') %></td>
+        <td><%= new Date(u.createdAt).toLocaleDateString() %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('../partials/footer') %>

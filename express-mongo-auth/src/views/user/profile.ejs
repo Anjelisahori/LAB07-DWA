@@ -1,0 +1,37 @@
+<%- include('../partials/header', { title: 'Mi Perfil' }) %>
+
+<div class="card-panel">
+  <h5>Mi Cuenta</h5>
+  <div class="row">
+    <form class="col s12" method="POST" action="/api/users/update">
+      <div class="input-field">
+        <input type="text" name="name" value="<%= user.name %>" required>
+        <label class="active">Nombre</label>
+      </div>
+      <div class="input-field">
+        <input type="text" name="lastName" value="<%= user.lastName %>" required>
+        <label class="active">Apellido</label>
+      </div>
+      <div class="input-field">
+        <input type="text" name="phoneNumber" value="<%= user.phoneNumber %>">
+        <label class="active">Teléfono</label>
+      </div>
+      <div class="input-field">
+        <input type="text" name="address" value="<%= user.address %>">
+        <label class="active">Dirección</label>
+      </div>
+      <div class="center">
+        <button class="btn green" type="submit">Actualizar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = '/signIn';
+  }
+</script>
+
+<%- include('../partials/footer') %>

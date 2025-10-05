@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title || 'Proyecto JWT con EJS' %></title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="blue darken-2">
+    <div class="nav-wrapper container">
+      <a href="/" class="brand-logo">AuthApp</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <% if (user) { %>
+          <li><a href="/profile">Mi Cuenta</a></li>
+          <% if (user.role === 'admin') { %>
+            <li><a href="/admin/dashboard">Admin</a></li>
+          <% } else { %>
+            <li><a href="/user/dashboard">Dashboard</a></li>
+          <% } %>
+          <li><a href="/logout">Cerrar sesión</a></li>
+        <% } else { %>
+          <li><a href="/signin">Iniciar Sesión</a></li>
+          <li><a href="/signup">Registrarse</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </nav>
+  <main class="container">

@@ -1,0 +1,41 @@
+<%- include('../partials/header', { title: 'Dashboard Usuario' }) %>
+
+<div class="card-panel">
+  <h4>Bienvenido <%= user.name %> 👋</h4>
+  <p>Rol: <b><%= user.roles && user.roles.length > 0 ? user.roles[0].name : 'user' %></b></p>
+  <p>Email: <%= user.email %></p>
+  <p>Teléfono: <%= user.phoneNumber %></p>
+
+  <div class="center" style="margin-top: 20px;">
+    <button id="btnPerfil" class="btn blue darken-2">Ver mi perfil</button>
+  </div>
+</div>
+
+<script>
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = '/signIn';
+  }
+
+  // Cuando se hace clic en "Ver mi perfil"
+  document.getElementById('btnPerfil').addEventListener('click', async () => {
+    try {
+      // Verificamos el token antes de redirigir
+      const res = await fetch('/api/users/me', {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      if (res.ok) {
+        // redirige al perfil pasando el token por query
+        window.location.href = '/profile?token=' + token;
+      } else {
+        localStorage.removeItem('token');
+        window.location.href = '/signIn';
+      }
+    } catch (err) {
+      console.error(err);
+      window.location.href = '/signIn';
+    }
+  });
+</script>
+
+<%- include('../partials/footer') %>

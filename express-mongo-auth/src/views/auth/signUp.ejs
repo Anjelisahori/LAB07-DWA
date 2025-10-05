@@ -1,0 +1,95 @@
+<%- include('../partials/header', { title: 'Registro de Usuario' }) %>
+
+<div class="row">
+  <form id="signupForm" class="col s12 m8 offset-m2 card-panel">
+    <h5 class="center">Crear Cuenta</h5>
+
+    <div class="input-field">
+      <input id="name" name="name" type="text" required>
+      <label for="name">Nombre</label>
+    </div>
+
+    <div class="input-field">
+      <input id="lastName" name="lastName" type="text" required>
+      <label for="lastName">Apellido</label>
+    </div>
+
+    <div class="input-field">
+      <input id="phoneNumber" name="phoneNumber" type="text" required>
+      <label for="phoneNumber">Teléfono</label>
+    </div>
+
+    <div class="input-field">
+      <input id="birthdate" name="birthdate" type="date" required>
+      <label for="birthdate">Fecha de Nacimiento</label>
+    </div>
+
+    <div class="input-field">
+      <input id="email" name="email" type="email" required>
+      <label for="email">Correo Electrónico</label>
+    </div>
+
+    <div class="input-field">
+      <input id="password" name="password" type="password" required>
+      <label for="password">Contraseña</label>
+    </div>
+
+    <div class="input-field">
+      <input id="address" name="address" type="text">
+      <label for="address">Dirección</label>
+    </div>
+
+    <!-- 👇 CAMPO AGREGADO -->
+    <div class="input-field">
+      <select id="roles" name="roles" required>
+        <option value="user" selected>Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
+      <label for="roles">Selecciona tu rol</label>
+    </div>
+
+    <div class="center">
+      <button class="btn waves-effect waves-light blue darken-2" type="submit">Registrar</button>
+    </div>
+
+    <p class="center">¿Ya tienes cuenta? <a href="/signIn">Inicia sesión aquí</a></p>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const elems = document.querySelectorAll('select');
+  M.FormSelect.init(elems);
+});
+
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = Object.fromEntries(new FormData(e.target));
+
+  // Enviar correctamente la fecha
+  formData.birthdate = new Date(formData.birthdate);
+
+  try {
+    const res = await fetch('/api/auth/signUp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert('✅ Cuenta creada con éxito');
+      window.location.href = '/signIn';
+    } else {
+      alert('⚠️ ' + data.message);
+    }
+  } catch (err) {
+    console.error('Error:', err);
+    alert('Error al registrar usuario');
+  }
+});
+</script>
+
+<%- include('../partials/footer') %>
